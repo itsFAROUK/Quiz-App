@@ -1,0 +1,4 @@
+*.jpg binary
+*.md diff=markdown
+README.md export-ignore
+* text=auto eol=lf

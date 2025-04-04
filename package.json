@@ -1,0 +1,27 @@
+{
+  "name": "quiz-app",
+  "version": "0.0.1",
+  "description": "A fun quiz app with multiple-choice questions",
+  "keywords": [
+    "quiz",
+    "game",
+    "javascript",
+    "web app",
+    "education"
+  ],
+  "license": "MIT",
+  "author": "Bouziz Farouk",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass --watch scss/style.scss:assets/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://itsfarouk.github.io/Quiz-App/"
+  },
+  "dependencies": {
+    "sass": "^1.86.3"
+  }
+}
