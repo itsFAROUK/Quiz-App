@@ -1,4 +1,4 @@
-let questions = [
+export let questions = [
     {
         numb: 1,
         question: "What does HTML stand for?",
