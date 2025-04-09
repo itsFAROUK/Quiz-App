@@ -326,7 +326,14 @@ body {
   transition: 0.5s;
 }
 
-.quiz-footer .next-btn:hover {
+.quiz-footer .next-btn.active {
+  pointer-events: auto;
+  background-color: #c40094;
+  border-color: #c40094;
+  color: white;
+}
+
+.quiz-footer .next-btn.acitve:hover {
   background-color: #950170;
   border-color: #950170;
 }
