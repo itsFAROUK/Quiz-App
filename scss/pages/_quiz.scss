@@ -1,0 +1,16 @@
+.quiz-section {
+    position: relative;
+    left: -50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #09001d;
+    transition: .8s ease-in-out;
+    transition-delay: .25s;
+    z-index: 20;
+}
+
+.quiz-section.active {
+    left: 0;
+}

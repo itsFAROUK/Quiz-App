@@ -1,0 +1,120 @@
+:root {
+    // -> Layout Colors
+    --primary: #c40094; 
+    --primary-variant: #950170;
+    --secondary: #09001d;
+    --text: white;
+
+    // -> Gradient Colors
+    --gradient-1: linear-gradient(45deg, transparent, #c40094, transparent);
+    --gradient-2: conic-gradient(#c40094 3.6deg, rgba(255, 255, 255, .1) 0deg);
+
+
+    // -> Typography
+    --ff-poppins-sans: 'Poppins', sans-serif;
+
+    --heading: 5.6rem;
+    --title-1: 2rem;
+    --title-2: 1.8rem;
+    --title-3: 1.6rem;
+    --body-1: 2.2rem;
+    --body-2: 2rem;
+    --body-3: 1.6rem;
+    --label-1: 1.4rem;
+    --label-2: 1.2rem;
+
+    --weight-regular: 400;
+    --weight-semiBold: 600;
+
+
+    // -> Border Radius
+    --radius-16: 1.6rem;
+    --radius-28: 2.8rem;
+    --radius-pill: 9999px;
+    --radius-circle: 50%;
+
+    
+    // -> Transition
+    --transition-short: 100ms ease;
+}
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li { list-style: none; }
+
+a,
+img,
+span,
+input,
+button { display: block; }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+input,
+button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+}
+
+button { 
+    cursor: pointer;
+    font-size: inherit; 
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background-color: black;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+}
+
+::selection {
+    border-color: var(--primary-variant);
+}
+
+::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem; // For horizontal scrollbar
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-variant);
+    border-radius: var(--radius-pill);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: rect(0, 0, 0, 0);
+    -webkit-clip-path: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

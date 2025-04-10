@@ -1,0 +1,61 @@
+.has-state { 
+    position: relative;
+    transition: var(--transition-short); 
+
+    &:hover {
+        box-shadow: var(--shadow-1);
+    }
+
+    &:is(:focus, :focus-visible) { box-shadow: none; }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        clip-path: circle(100% at 50% 50%);
+        -webkit-clip-path: circle(100% at 50% 50%);
+        transition: var(--transition-short);
+    }
+
+    &:hover::before { background-color: var(--white-alpha-4); }
+
+    &:is(:focus, :focus-visible)::before {
+        background-color: var(--white-alpha-8);
+        animation: ripple 250ms ease forwards;
+    }
+}
+
+@keyframes ripple {
+    0% { 
+        clip-path: circle(0% at 50% 50%);
+        -webkit-clip-path: circle(0% at 50% 50%);
+    }
+    100% { 
+        clip-path: circle(100% at 50% 50%);
+        -webkit-clip-path: circle(100% at 50% 50%);
+    }
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: space("lg");
+    padding-inline: space("lg");
+    height: 3em;
+    line-height: space("4xl");
+    max-width: max-content;
+    border-radius: var(--radius-pill);
+    background-color: var(--primary);
+    color: var(--on-primary);
+
+    &__text { font-weight: var(--weight-semiBold); }
+
+    &[disabled] {
+        background-color: var(--outline);
+        color: var(--on-surface-variant);
+        cursor: not-allowed;
+
+        &::before{ display: none; }
+    }
+}
