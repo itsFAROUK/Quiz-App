@@ -1,103 +1,112 @@
+@use '../abstracts/' as u;
 
-.quiz-section .result-box {
+.result-box {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(.9);
-    width: 500px;
+    top: 0;
+    transform: scale(.9);
+    width: 100%;
+    max-width: u.em(500);
+    min-height: 100%;
+    padding: clamp(u.em(15), 4vw, u.em(30));
     background-color: transparent;
-    border: 2px solid #c40094;
-    border-radius: 6px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: .3s ease;
-}
+    transition: var(--transition-long);
 
-.quiz-section .result-box.active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
-}
+    @include u.media(phone) {
+        min-height: initial;
+        top: initial;
+        border: 2px solid var(--primary);
+        border-radius: var(--radius-6);
+    }
 
-.result-box h2 {
-    font-size: 52px;
-}
+    &--active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+    }
 
-.result-box .percentage-container {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0 40px;
-}
+    &__title {
+        font-size: clamp(u.rem(30), 10vw, u.rem(50));
+    }
 
-.percentage-container .circular-progress {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    background-image: 
-        conic-gradient(#c40094 3.6deg, rgba(255, 255, 255, .1) 0deg);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    &__progress {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-block-start: u.em(20);
+        margin-block-end: u.em(40);
+    }
 
-.percentage-container .circular-progress::before {
-    content: '';
-    position: absolute;
-    width: 210px;
-    height: 210px;
-    background-color: #09001d;
-    border-radius: 50%;
-}
+    &__progress-circle {
+        @include u.center-items;
+        position: relative;
+        max-width: u.em(250);
+        width: 70%;
+        aspect-ratio: 1;
+        background-image: 
+            conic-gradient(var(--primary) 3.6deg, rgba(255, 255, 255, .1) 0deg);
+        border-radius: var(--radius-circle);
 
-.circular-progress .progress-value {
-    position: relative;
-    font-size: 45px;
-    font-weight: 600;
-}
+        &::before {
+            content: '';
+            position: absolute;
+            width: 88%;
+            aspect-ratio: 1;
+            background-color: var(--secondary);
+            border-radius: var(--radius-circle);
+        }
+    }
 
-.percentage-container .score-text {
-    font-size: 26px;
-    font-weight: 600;
-    margin-top: 20px;
-}
+    &__progress-value {
+        position: relative;
+        font-size: clamp(u.rem(20), 18vw, u.rem(50));
+        font-weight: var(--weight-semiBold);
+    }
 
-.result-box .buttons {
-    display: flex;
-}
+    &__score {
+        font-size: clamp(u.rem(18), 8vw, u.rem(28));
+        font-weight: var(--weight-semiBold);
+        margin-block-start: u.em(20);
+    }
 
-.buttons button {
-    width: 130px;
-    height: 47px;
-    background-color: #c40094;
-    border: 2px solid #c40094;
-    outline: none;
-    border-radius: 6px;
-    font-size: 16px;
-    color: white;
-    font-weight: 600;
-    margin: 0 20px 20px;
-    cursor: pointer;
-    transition: .5s;
-}
+    &__actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: u.rem(20);
+    }
 
-.buttons button:nth-child(1):hover {
-    background-color: #950170;
-    border-color: #95017094;
-}
+    &__btn {
+        width: u.em(130);
+        height: u.em(47);
+        background-color: var(--primary);
+        border: 2px solid var(--primary);
+        border-radius: var(--radius-6);
+        font-size: clamp(u.rem(14), 4vw, u.rem(16));
+        color: var(--text);
+        font-weight: var(--weight-semiBold);
+        transition: var(--transition-long);
+    }
 
-.buttons button:nth-child(2) {
-    background-color: transparent;
-    color: #c40094;
-}
+    &__tryAgain-btn:hover {
+        background-color: var(--primary-variant);
+        border-color: #95017094;
+    }
 
-.buttons button:nth-child(2):hover {
-    background-color: #c40094;
-    color: white;
+    &__goHome-btn {
+        background-color: transparent;
+        color: var(--primary);
+    }
+
+    &__goHome-btn:hover {
+        background-color: var(--primary);
+        color: var(--text);
+    }
+
 }

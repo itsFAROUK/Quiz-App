@@ -1,9 +1,31 @@
-@mixin media($breakpoint) {
-    @if map-has-key($breakpoints, $breakpoint) {
-        @media (min-width: get-breakpoint($breakpoint)) {
+@use 'sass:map';
+@use './variables' as vars;
+@use './functions' as funs;
+
+@mixin media($screen) {
+    @if map.has-key(vars.$breakpoints, $screen) {
+        @media (min-width: funs.get-breakpoint($screen)) {
             @content;
         }
     } @else {
-        @warn "Breakpoint '#{$breakpoint}' not found in \$breakpoints map.";
+        @warn "Breakpoint '#{$screen}' not found in \$breakpoints map.";
     }
+}
+
+@mixin center-abs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin center-items {
+    display: grid;
+    place-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

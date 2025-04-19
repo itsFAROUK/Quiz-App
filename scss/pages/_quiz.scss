@@ -1,16 +1,18 @@
+@use '../abstracts/' as u;
+
 .quiz-section {
     position: relative;
-    left: -50%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #09001d;
-    transition: .8s ease-in-out;
+    left: 0%;
+    flex: 0 0 100%;
+    @include u.center-items;
+    overflow-y: auto;
+    background-color: var(--secondary);
+    transition: var(--transition-x-long);
+    transition-timing-function: ease-in-out;
     transition-delay: .25s;
-    z-index: 20;
-}
+    z-index: 30;
 
-.quiz-section.active {
-    left: 0;
+    &--active {
+        left: -100%;
+    }
 }
