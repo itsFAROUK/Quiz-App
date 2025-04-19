@@ -1,175 +1,187 @@
-import { questions } from "./questions.js";
+'use strict';
 
-const startBtn = document.querySelector('.start-btn');
-const popupInfo = document.querySelector('.popup-info');
-const exitBtn = document.querySelector('.exit-btn');
-const main = document.querySelector('.main');
-const continueBtn = document.querySelector('.continue-btn');
-const quizSection = document.querySelector('.quiz-section');
-const quizBox = document.querySelector('.quiz-box');
-const resultBox = document.querySelector('.result-box');
-const tryAgainBtn = document.querySelector('.tryAgain-btn');
-const goHomeBtn = document.querySelector('.goHome-btn');
+import * as h from './helper.js';
+import { questions } from './questions.js';
 
-startBtn.onclick = () => {
-    popupInfo.classList.add("active");
-    main.classList.add("active");
-}
-
-exitBtn.onclick = () => {
-    popupInfo.classList.remove("active");
-    main.classList.remove("active");
-}
-
-continueBtn.onclick = () => {
-    quizSection.classList.add("active");
-    popupInfo.classList.remove("active");
-    main.classList.remove("active");
-    quizBox.classList.add("active"); 
+const DOM = {
+    landing: h.$('.landing'),
+    startBtn: h.$('.landing-content__start-btn'),
     
-    showQuestions(0);
-    questionCounter(1);
-    headerScore();
-}
+    popupInfo: h.$('.popup-info'),
+    exitBtn: h.$('.popup-info__exit-btn'),
+    continueBtn: h.$('.popup-info__continue-btn'),
+    
+    quizSection: h.$('.quiz-section'),
+    
+    quiz: {
+        quizBox: h.$('.quiz-box'),
+        question: h.$('.quiz-box__question'),
+        options: h.$('.quiz-box__options'),
+        score: h.$('.quiz-box__score'),
+        currQuestion: h.$('.quiz-box__current'), 
+        nextBtn: h.$('.quiz-box__next-btn')
+    },
 
-tryAgainBtn.onclick = () => {
-    quizBox.classList.add("active"); 
-    nextBtn.classList.remove("active")
-    resultBox.classList.remove("active");
+    result: {
+        resultBox: h.$('.result-box'),
+        circularProgress: h.$('.result-box__progress-circle'),
+        progressValue: h.$('.result-box__progress-value'),
+        score: h.$('.result-box__score'),
+        tryAgainBtn: h.$('.result-box__tryAgain-btn'),
+        goHomeBtn: h.$('.result-box__goHome-btn')
+    }
+};
 
-    questionCount = 0;
-    questionNumb = 1;
-    userScore = 0;
-    showQuestions(questionCount);
-    questionCounter(questionNumb);
+const ScoreManager = (function () {
+    let score = 0;
+    return {
+        current: () => score,
+        increase: () => score++,
+        reset: () => score = 0
+    }
+})();
 
-    headerScore();
-}
+const QuestionNumManager = (function () {
+    let question = 0;
+    return {
+        current: () => question,
+        increase: () => question++,
+        reset: () => question = 0
+    }
+})();
 
-goHomeBtn.onclick = () => {
-    quizSection.classList.remove("active"); 
-    nextBtn.classList.remove("active")
-    resultBox.classList.remove("active");
+DOM.startBtn.addEventListener('click', () => {
+    h.disableElement(DOM.landing);
+    h.enableElement(DOM.popupInfo);
+});
 
-    questionCount = 0;
-    questionNumb = 1;
-    userScore = 0;
-    showQuestions(questionCount);
-    questionCounter(questionNumb);
-}
+DOM.exitBtn.addEventListener('click', () => {
+    h.disableElement(DOM.popupInfo);    
+    h.enableElement(DOM.landing);
+});
 
-let questionCount = 0;
-let questionNumb = 1;
-let userScore = 0;
+DOM.continueBtn.addEventListener('click', () => {
+    DOM.landing.classList.add('landing--active');
 
-const nextBtn = document.querySelector(".next-btn");
+    h.disableElement(DOM.popupInfo);
+    h.enableElement(DOM.quizSection);
+    h.enableElement(DOM.quiz.quizBox);
+    
+    showQuestion(QuestionNumManager.increase());
+});
 
-nextBtn.onclick = () => {
-    if (questionCount < questions.length - 1) {
-        questionCount++;
-        showQuestions(questionCount);
+DOM.result.tryAgainBtn.addEventListener('click', () => {
+    h.disableElement(DOM.result.resultBox);
+    h.enableElement(DOM.quiz.quizBox);
 
-        questionNumb++;
-        questionCounter(questionNumb);
+    QuestionNumManager.reset();
+    ScoreManager.reset();
+    
+    showQuestion(QuestionNumManager.increase());
+});
 
-        nextBtn.classList.remove('active');
+DOM.result.goHomeBtn.addEventListener('click', () => {
+    DOM.landing.classList.remove('landing--active');
+    h.disableElement(DOM.result.resultBox);
+    h.disableElement(DOM.quizSection);
+    h.enableElement(DOM.landing);
+
+    QuestionNumManager.reset();
+    ScoreManager.reset();
+});
+
+DOM.quiz.nextBtn.addEventListener('click', () => {
+    if (QuestionNumManager.current() < questions.length) {
+        showQuestion(QuestionNumManager.increase());
+        DOM.quiz.nextBtn.classList.remove('quiz-box__next-btn--active');
+        
     } else {
+        DOM.quiz.nextBtn.classList.remove('quiz-box__next-btn--active');
         showResultBox();
     }
+});
+
+function showQuestion(index) {
+    const question = questions[index];
+    const options = question.options;
+
+    DOM.quiz.score.innerText = `Score: ${ScoreManager.current()} / ${questions.length}`;
+
+    DOM.quiz.options.innerHTML = '';
+
+    DOM.quiz.question.textContent = `${question.numb} ${question.question}`;
+
+    options.forEach((opt) => {
+        const liOption = document.createElement('li');
+        liOption.classList.add('quiz-box__option');
+        liOption.innerHTML = `
+            <button 
+            class='quiz-box__option-btn' 
+            aria-pressed='false'
+            role='radio'>
+                <p class='quiz-box__option-text'>
+                    ${opt}
+                </p>
+            </button>
+        `
+        DOM.quiz.options.appendChild(liOption);
+    });
+
+    const optionBtns = DOM.quiz.options.querySelectorAll('.quiz-box__option-btn');
+
+    h.addEventOnElements(optionBtns, 'click', function () {
+        judgeAnswer(question, this.parentElement);
+    });
+
+    DOM.quiz.currQuestion.textContent = `${QuestionNumManager.current()} of ${questions.length} Questions`; 
 }
 
-const optionList = document.querySelector(".option-list");
-
-// getting questions and options from array
-function showQuestions(index) {
-    const questionText = document.querySelector('.question-text');
-    questionText.textContent = `${questions[index].numb} ${questions[index].question}`;
-
-    let optionTag = `
-        <div class="option">
-            <span>${questions[index].options[0]}</span>
-        </div>
-        <div class="option">
-            <span>${questions[index].options[1]}</span>
-        </div>
-        <div class="option">
-            <span>${questions[index].options[2]}</span>
-        </div>
-        <div class="option">
-            <span>${questions[index].options[3]}</span>
-        </div>
-    `;
-
-    optionList.innerHTML = optionTag;
-
-    const option = document.querySelectorAll(".option");
-    for (let i = 0; i < option.length; i++) {
-        option[i].setAttribute("onclick", "optionSelected(this)");
-    }
-}
-
-window.optionSelected = function(answer) {
-    let userAnswer = answer.innerText;
-    let correctAnswer = questions[questionCount].answer;
-    let allOptions = optionList.children.length;
-
-    if (userAnswer == correctAnswer) {
-        answer.classList.add("correct");
-        userScore += 1;
-        headerScore();               
-    } else {
-        answer.classList.add("incorrect");
-        
-        //if answer incorrect, auto selected correct answer
-        for (let i = 0; i < allOptions; i++) {
-            if (optionList.children[i].innerText == correctAnswer) {
-                optionList.children[i].classList.add('correct');
-            }
-        }
-    }
-
+function judgeAnswer(question, answer) {
     // if user has selected, disabled all options
-    for (let i = 0; i < allOptions; i++) {
-        optionList.children[i].classList.add('disabled');
+    [...DOM.quiz.options.children].forEach((option) => {
+        option.classList.add('quiz-box__option--disabled');
+    });
+
+    const correctAnswer = question.answer;
+
+    if (answer.innerText.trim() == correctAnswer.trim()) {
+        answer.classList.add('quiz-box__option--correct');
+        updateScore();           
+    } else {
+        answer.classList.add('quiz-box__option--incorrect');
+
+        // Auto select correct answer 
+        [...DOM.quiz.options.children].forEach((option) => {
+            if (option.innerText.trim() == correctAnswer.trim())
+                option.classList.add('quiz-box__option--correct');
+        })  
     }
-    
-    nextBtn.classList.add('active');
+
+    DOM.quiz.nextBtn.classList.add('quiz-box__next-btn--active');
 }
 
-function questionCounter(index) {
-    const questionTotal = document.querySelector(".question-total");
-    questionTotal.textContent = `${index} of ${questions.length} Questions`;
-}
-
-function headerScore() {
-    const headerScoreText = document.querySelector('.header-score');
-    headerScoreText.textContent = `Score: ${userScore} / ${questions.length}`
+function updateScore() {
+    ScoreManager.increase();
+    DOM.quiz.score.textContent = `Score: ${ScoreManager.current()} / ${questions.length}`;    
 }
 
 function showResultBox() {
-    quizBox.classList.remove('active');
-    resultBox.classList.add('active');
+    h.disableElement(DOM.quiz.quizBox);
+    h.enableElement(DOM.result.resultBox);
+    
+    let progressStartValue = 0;
+    let progressEndValue = Math.round((ScoreManager.current() / questions.length) * 100);
+    
+    (function animateProgress() {
+        DOM.result.progressValue.textContent = `${progressStartValue}%`;
+        DOM.result.circularProgress.style.background = `
+            conic-gradient(var(--primary) ${progressStartValue * 3.6}deg,
+            rgba(255, 255, 255, .1) 0deg)
+        `;
 
-    const scoreText = document.querySelector('.score-text');
-    scoreText.textContent = `Your Score ${userScore} our of ${questions.length}`;
+        if (progressStartValue++ < progressEndValue)
+            requestAnimationFrame(animateProgress);
+    })();
 
-    const circularProgress = document.querySelector('.circular-progress');
-    const progressValue = document.querySelector('.progress-value');
-
-    let progressStartValue = -1;
-    let progressEndValue = (userScore / questions.length) * 100;
-    let speed = 20;
-
-    let progress = setInterval(() => {
-        progressStartValue++;
-
-        progressValue.textContent = `${progressStartValue}%`;
-        circularProgress.style.background = 
-        `conic-gradient(#c40094 ${progressStartValue * 3.6}deg,
-        rgba(255, 255, 255, .1) 0deg)`;
-
-        if (progressStartValue == progressEndValue) {
-            clearInterval(progress);
-        }
-    }, speed);
+    DOM.result.score.textContent = `Your Score ${ScoreManager.current()} out of ${questions.length}`;
 }

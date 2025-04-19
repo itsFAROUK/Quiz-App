@@ -12,13 +12,13 @@
     <meta name="description" content="A simple, interactive web-based quiz application that allows users to test their knowledge🧠💡">
     <meta http-equiv="Content-Language" content="en">
     <meta name="author" content="Farouk Bouaziz">
-    <link rel="canonical" href="https://itsfarouk.github.io/Weather-App/">
+    <link rel="canonical" href="https://itsfarouk.github.io/Quiz-App/">
     <!-- <link rel="icon" href="assets/images/example.svg" type="image/svg+xml"> -->
 
     <!-- Open Graph metas -->
-    <meta property="og:title" content="Weather-App">
+    <meta property="og:title" content="Quiz-App">
     <meta property="og:description" content="A simple, interactive web-based quiz application that allows users to test their knowledge🧠💡">
-    <meta property="og:url" content="https://itsfarouk.github.io/Weather-App/">
+    <meta property="og:url" content="https://itsfarouk.github.io/Quiz-App/">
     <!-- <meta property="og:image" content="example.png"> -->
     <!-- <meta property="og:type" content="website"> -->
     <meta property="og:locale" content="en_US">
@@ -39,77 +39,38 @@
     <main class="main">
         <div class="container">
 
-            <section class="landing">
+            <section class="landing landing--active">
                 <header class="header">
                     <a href="#" class="logo">Quiz.</a>
                 </header>
                 <div class="landing-content">
                     <h1 class="landing-content__title">Quiz App</h1>
                     <p class="landing-content__text">
-                        A simple, interactive web-based quiz application that allows users to test their knowledge 🧠💡. Built with HTML, CSS (SCSS), and JavaScript, this app features multiple-choice questions, a scoring system, and a user-friendly interface. Perfect for anyone looking to challenge themselves and improve their general knowledge! 🎉📚
+                        A fun, interactive quiz app to test your knowledge 🧠💡. Built with HTML, CSS (SCSS), and JavaScript, featuring multiple-choice questions, scoring, and a  clean user-friendly desing🎉📚
                     </p>
-                    <button class="landing-content__btn">Start Quiz</button>
+                    <button class="landing-content__start-btn">Start Quiz</button>
                 </div>
             </section>
 
-            <section class="quiz-section">
+            <section class="quiz-section" inert aria-hidden="true">
 
-                <div class="quiz-box">
+                <div class="quiz-box" inert aria-hidden="true">
                     <h2 class="quiz-box__title">Quiz.</h2>
                     <div class="quiz-box__header">
-                        <p class="quiz-box__category">#programing</p>
-                        <p class="quiz-box__score">Score: 0 / 5</p>
+                        <p>#Coding</p>
+                        <p class="quiz-box__score"></p>
                     </div>
-                    <p class="quiz-box__question">What does HTML stand for?</p>
-                    <ul class="quiz-box__options">
-                        <li class="quiz-box__option">
-                            <button 
-                            class="quiz-box__option-btn" 
-                            aria-pressed="false"
-                            role="radio">
-                                <p class="quiz-box__option-text">
-                                    A. Hyper Type Multi Language
-                                </p>
-                            </button>
-                        </li>
-                        <li class="quiz-box__option">
-                            <button 
-                            class="quiz-box__option-btn" 
-                            aria-pressed="false"
-                            role="radio">
-                                <p class="quiz-box__option-text">
-                                    B. Hyper Text Multiple Language
-                                </p>
-                            </button>
-                        </li>
-                        <li class="quiz-box__option">
-                            <button 
-                            class="quiz-box__option-btn" 
-                            aria-pressed="false"
-                            role="radio">
-                                <p class="quiz-box__option-text">
-                                    C. Hyper Text Markup Language
-                                </p>
-                            </button>
-                        </li>
-                        <li class="quiz-box__option">
-                            <button 
-                            class="quiz-box__option-btn" 
-                            aria-pressed="false"
-                            role="radio">
-                                <p class="quiz-box__option-text">
-                                    D. Home Text Multi Language
-                                </p>
-                            </button>
-                        </li>
-                    </ul>
+                    <div class="quiz-box__body">
+                        <p class="quiz-box__question"></p>
+                        <ul class="quiz-box__options"></ul>
+                    </div>
                     <div class="quiz-box__footer">
-                        <span class="quiz-box__counter">1 of 5 Questions</span>
+                        <span class="quiz-box__current"></span>
                         <button class="quiz-box__next-btn">Next</button>
                     </div>
                 </div>
 
-                <div class="result-box">
+                <div class="result-box" inert aria-hidden="true">
                     <h2 class="result-box__title">Quiz Result!</h2>
 
                     <div class="result-box__progress">
@@ -119,15 +80,15 @@
                         aria-valuenow="0"
                         aria-valuemin="0"
                         aria-valuemax="100">
-                            <span class="progress-value">0%</span>
+                            <span class="result-box__progress-value"></span>
                         </div>
 
-                        <p class="result-box__score">Your Score 0 out 5</p>
+                        <p class="result-box__score"></p>
                     </div>
 
                     <div class="result-box__actions">
-                        <button class="result-box__tryAgain-btn">Try Again</button>
-                        <button class="result-box__goHome-btn">Go To Home</button>
+                        <button class="result-box__btn result-box__tryAgain-btn">Try Again</button>
+                        <button class="result-box__btn result-box__goHome-btn">Go To Home</button>
                     </div>
                 </div>
 
@@ -136,7 +97,7 @@
         </div>
     </main>
 
-    <div class="popup-info">
+    <div class="popup-info" inert aria-hidden="true">
         <h2 class="popup-info__title">Quiz Guide</h2>
         <ol class="popup-info__items-list">
             <li class="popup-info__item">

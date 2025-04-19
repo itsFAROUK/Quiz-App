@@ -1,129 +1,131 @@
-.quiz-section .quiz-box {
-    position: relative;
-    width: 500px;
-    background-color: transparent;
-    border: 2px solid #c40094;
-    border-radius: 6px;
+@use '../abstracts/' as u;
+
+.quiz-box {
+    width: 100%;
+    max-width: u.em(500);
+    padding: clamp(u.em(15), 4vw, u.em(30));
     display: flex;
     flex-direction: column;
-    padding: 20px 30px;
+    background-color: transparent;
     opacity: 0;
     pointer-events: none;
     transform: scale(.9);
-    transition: .3s ease;
-    transition-delay: 0s;
-}
+    transition: var(--transition-short);
 
-.quiz-section .quiz-box.active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale(1);
-    transition: 1s ease;
-    transition-delay: 1s;
-}
+    @include u.media(phone) {
+        border: 2px solid var(--primary);
+        border-radius: var(--radius-6);
+    }
 
-.quiz-box h1 {
-    font-size: 32px;
-    text-align: center;
-    background-image: linear-gradient(45deg, transparent, #c40094, transparent);
-    border-radius: 6px;
-}
+    &--active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+        transition: transform 1s ease 1s, opacity 1s ease 1s;
+    }
 
-.quiz-box .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 2px solid #c40094;
-    margin-bottom: 30px;
-}
+    &__title {
+        font-size: clamp(u.rem(25), 10vw, u.rem(40));
+        text-align: center;
+        background-image: 
+            linear-gradient(45deg, transparent, var(--primary), transparent);
+    }
 
-.quiz-header span {
-    font-size: 18px;
-    font-weight: 500;
-}
+    &__header {
+        @include u.flex-between;
+        padding-block: clamp(u.em(10), 5svh, u.em(20));
+        border-block-end: 2px solid var(--primary);
+        font-size: clamp(u.rem(15), 6vw, u.rem(17));
+        font-weight: var(--weight-thick);
+    }
 
-.quiz-header .header-score {
-    background-color: #c40094;
-    border-radius: 3px;
-    padding: 7px;
-}
+    &__body {
+        margin-block: clamp(u.em(20), 5svh , u.em(30));
+    }
 
-.quiz-box .question-text {
-    font-size: 24px;
-    font-weight: 600;
-}
+    &__score {
+        background-color: var(--primary);
+        border-radius: u.rem(3);
+        padding: clamp(u.em(4), 2vw, u.em(7));
+    }
 
-.option-list .option {
-    width: 100%;
-    padding: 12px;
-    background-color: transparent;
-    border: 2px solid rgba(255, 255, 255, .3);
-    border-radius: 4px;
-    font-size: 17px;
-    margin: 15px 0;
-    cursor: pointer;
-    transition: .3s;
-}
+    &__question {
+        font-size: clamp(u.rem(20), 5vw, u.rem(24));
+        margin-block-end: clamp(u.em(10), 3.5svh, u.em(16));
+        font-weight: var(--weight-semiBold);
+    }
 
-.option-list .option:hover {
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
-}
+    &__option {
+        width: 100%;
+        margin-block-end: u.em(15);
+        background-color: transparent;
+        border: 2px solid rgba(255, 255, 255, .3);
+        border-radius: u.rem(4);
+        font-size: clamp(u.rem(14), 5vw, u.rem(17));
+        transition: var(--transition-medium);
 
-.option-list .option.correct {
-    background-color: #09001d;
-    color: #00a63d;
-    border-color: #00a63d;
-}
+        &:hover {
+            background-color: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .1);
+        }
 
-.option-list .option.incorrect {
-    background-color: #09001d;
-    color: #a60045;
-    border-color: #a60045;
-}
+        &--correct {
+            background-color: var(--secondary);
+            color: var(--true);
+            border-color: var(--true);
+        }
 
-.option-list .option.disabled {
-    pointer-events: none;
-}
+        &--incorrect {
+            background-color: var(--secondary);
+            color: var(--false);
+            border-color: var(--false);
+        }
 
-.quiz-box .quiz-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 2px solid #c40094;
-    padding-top: 20px;
-    margin-top: 25px;
-}
+        &--disabled {
+            pointer-events: none;
+        }
+    }
 
-.quiz-footer .question-total {
-    font-size: 16px;
-    font-weight: 600;
-}
+    &__option-btn {
+        width: 100%;
+        height: 100%;
+        padding-block: u.em(12);
+        padding-inline: clamp(u.em(6), 4vw, u.em(12));
+        text-align: left;
+    }
 
-.quiz-footer .next-btn {
-    width: 100px;
-    height: 45px;
-    background-color: rgba(0, 0, 0, .1);
-    border: 2px solid rgba(255, 255, 255, .1);
-    outline: none;
-    border-radius: 6px;
-    font-size: 16px;
-    color: rgba(255, 255, 255, .3);
-    font-weight: 600;
-    cursor: pointer;
-    // pointer-events: none;
-    transition: .5s;
-}
+    &__footer {
+        @include u.flex-between;
+        gap: u.em(10);
+        padding-block-start: clamp(u.em(10), 5svh, u.em(20));
+        border-block-start: 2px solid var(--primary);
+        font-size: clamp(u.rem(15), 6vw, u.rem(17));
+        font-weight: var(--weight-semiBold);
+    }
 
-.quiz-footer .next-btn.active {
-    pointer-events: auto;
-    background-color: #c40094;
-    border-color: #c40094;
-    color: white;
-}
+    &__next-btn {
+        width: u.em(100);
+        height: u.em(45);
+        background-color: rgba(0, 0, 0, .1);
+        border: 2px solid rgba(255, 255, 255, .1);
+        border-radius: var(--radius-6);
+        color: rgba(255, 255, 255, .3);
+        font-size: inherit;
+        font-weight: inherit;
+        pointer-events: none;
+        transition: var(--transition-long);
 
-.quiz-footer .next-btn.acitve:hover {
-    background-color: #950170;
-    border-color: #950170;
+        &--active {
+            pointer-events: auto;
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+
+            &:hover {
+                background-color: var(--primary-variant);
+                border-color: var(--primary-variant);
+            }
+            
+        }
+    }
 }

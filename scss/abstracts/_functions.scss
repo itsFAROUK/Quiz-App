@@ -1,3 +1,23 @@
-@function get-breakpoint($breakpoint) {
-    @return map-get($breakpoints, $breakpoint);
+@use 'sass:math';
+@use 'sass:map';
+@use './variables' as vars;
+
+@function get-breakpoint($screen) {
+    @return map.get(vars.$breakpoints, $screen);
+}
+
+@function rem($pixel) {
+    @if math.is-unitless($pixel) {
+        @return math.div($pixel, 16) * 1rem;
+    } @else {
+        @error 'Don\'t use units when using the rem() function; only numbers.';
+    }
+}
+
+@function em($pixel) {
+    @if math.is-unitless($pixel) {
+        @return math.div($pixel, 16) * 1em;
+    } @else {
+        @error 'Don\'t use units when using the em() function; only numbers.';
+    }
 }

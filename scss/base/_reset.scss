@@ -1,9 +1,14 @@
+@use '../abstracts/' as u;
+
 :root {
     // -> Layout Colors
     --primary: #c40094; 
     --primary-variant: #950170;
     --secondary: #09001d;
+    --tertiary: white;
     --text: white;
+    --true: #00a63d;
+    --false: #a60045;
 
     // -> Gradient Colors
     --gradient-1: linear-gradient(45deg, transparent, #c40094, transparent);
@@ -13,36 +18,37 @@
     // -> Typography
     --ff-poppins-sans: 'Poppins', sans-serif;
 
-    --heading: 5.6rem;
-    --title-1: 2rem;
-    --title-2: 1.8rem;
-    --title-3: 1.6rem;
-    --body-1: 2.2rem;
-    --body-2: 2rem;
-    --body-3: 1.6rem;
-    --label-1: 1.4rem;
-    --label-2: 1.2rem;
-
     --weight-regular: 400;
+    --weight-thick: 500;
     --weight-semiBold: 600;
+    --weight-barelyBold: 700;
 
 
     // -> Border Radius
-    --radius-16: 1.6rem;
-    --radius-28: 2.8rem;
+    --radius-6: 0.375rem;
+    --radius-16: 1rem;
+    --radius-28: 1.75rem;
     --radius-pill: 9999px;
     --radius-circle: 50%;
 
     
     // -> Transition
     --transition-short: 100ms ease;
+    --transition-medium: 300ms ease;
+    --transition-long: 500ms ease;
+    --transition-x-long: 800ms ease;
 }
+
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
 }
 
 li { list-style: none; }
@@ -80,41 +86,19 @@ button {
 html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow: hidden;
 }
 
 body {
     background-color: black;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 :focus-visible {
-    outline: 2px solid var(--white);
+    outline: 2px solid white;
     outline-offset: 2px;
 }
 
 ::selection {
-    border-color: var(--primary-variant);
-}
-
-::-webkit-scrollbar {
-    width: 0.6rem;
-    height: 0.6rem; // For horizontal scrollbar
-}
-
-::-webkit-scrollbar-thumb {
     background-color: var(--primary-variant);
-    border-radius: var(--radius-pill);
-}
-
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: rect(0, 0, 0, 0);
-    -webkit-clip-path: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
 }

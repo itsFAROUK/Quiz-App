@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "sass --watch scss/style.scss:assets/css/style.css"
+    "sass": "sass --watch scss/main.scss:assets/css/style.css"
   },
   "repository": {
     "type": "git",
